@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AbsensiAdminController;
 use App\Http\Controllers\DashboardAdminController;
+use App\Http\Controllers\DashboardGuruController;
 use App\Http\Controllers\KelolaAbsensiAdminController;
 use App\Http\Controllers\ManajemenGuruAdminController;
 use Illuminate\Support\Facades\Route;
@@ -37,5 +38,6 @@ Route::middleware([])->group(function () {
 // login sebagai guru
 
 Route::middleware([])->group(function () {
+    Route::get('/guru/dashboard', [DashboardGuruController::class, 'index'])->name('guru.dashboard');
 
 });
