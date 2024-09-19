@@ -19,4 +19,9 @@ class Absensi extends Model
         'status',
         'poin'
     ];
+
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class, 'guru_id');
+    }
 }

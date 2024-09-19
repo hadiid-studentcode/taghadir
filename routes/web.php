@@ -29,7 +29,8 @@ Route::middleware([])->group(function () {
 
 
 
-    Route::get('/admin/absensi', [AbsensiAdminController::class, 'index'])->name('admin.absensi');
+    Route::get('/admin/manajemen-absensi', [AbsensiAdminController::class, 'index'])->name('admin.absensi');
+  
 
 });
 
