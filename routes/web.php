@@ -22,6 +22,13 @@ Route::middleware([])->group(function () {
 
 
     Route::get('/admin/kelola-absensi', [KelolaAbsensiAdminController::class, 'index'])->name('admin.kelolaAbsensi');
+    Route::post('/admin/kelola-absensi', [KelolaAbsensiAdminController::class, 'store'])->name('admin.kelolaAbsensi.store');
+    Route::delete('/admin/kelola-absensi/{id}', [KelolaAbsensiAdminController::class, 'destroy'])->name('admin.kelolaAbsensi.destroy');
+    Route::put('/admin/kelola-absensi/update/{id}', [KelolaAbsensiAdminController::class, 'update'])->name('admin.kelolaAbsensi.update');
+
+
+
+
     Route::get('/admin/absensi', [AbsensiAdminController::class, 'index'])->name('admin.absensi');
 
 });
