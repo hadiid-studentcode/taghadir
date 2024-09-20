@@ -1,19 +1,24 @@
 <?php
 
 use App\Http\Controllers\AbsensiAdminController;
+use App\Http\Controllers\AbsensiGuruController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardGuruController;
 use App\Http\Controllers\KelolaAbsensiAdminController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ManajemenGuruAdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
+
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
 
 // login sebagai admin
 
-Route::middleware([])->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [DashboardAdminController::class, 'index'])->name('admin.dashboard');
 
     Route::get('/admin/manajemen-guru', [ManajemenGuruAdminController::class, 'index'])->name('admin.manajemenGuru');
@@ -31,13 +36,19 @@ Route::middleware([])->group(function () {
 
 
     Route::get('/admin/manajemen-absensi', [AbsensiAdminController::class, 'index'])->name('admin.absensi');
+    Route::get('/admin/logout', [LoginController::class, 'logout'])->name('admin.logout');
+
   
 
 });
 
 // login sebagai guru
 
-Route::middleware([])->group(function () {
+Route::middleware(['auth', 'role:guru'])->group(function () {
     Route::get('/guru/dashboard', [DashboardGuruController::class, 'index'])->name('guru.dashboard');
+    Route::post('/guru/absensi', [AbsensiGuruController::class, 'store'])->name('guru.absensi.store');
+
+    Route::get('/guru/logout', [LoginController::class, 'logout'])->name('guru.logout');
+
 
 });

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kelola_absensi', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement();
             $table->date('tanggal');
             $table->time('waktu_masuk');
             $table->time('waktu_keluar');

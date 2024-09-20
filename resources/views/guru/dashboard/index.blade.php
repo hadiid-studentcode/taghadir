@@ -27,9 +27,7 @@
             margin: 0;
         }
 
-        #map {
-           
-        }
+        #map {}
     </style>
 @endpush
 
@@ -53,8 +51,8 @@
                                                 <div class="card-body">
                                                     <div class="d-sm-flex justify-content-between align-items-start">
                                                         <div>
-                                                            <h4 class="card-title card-title-dash">Absensi Bulan Januari
-                                                                2024</h4>
+                                                            <h4 class="card-title card-title-dash">Absensi Bulan
+                                                                {{ $bulanHariIni_info }}</h4>
 
                                                         </div>
 
@@ -71,13 +69,24 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                </tr>
+
+                                                                @if ($absensiHariIni != null && $absensiHariIni->isNotEmpty())
+                                                                    @foreach ($absensiHariIni as $a)
+                                                                        <tr>
+                                                                            <td>{{ $loop->iteration }}</td>
+                                                                            <td>{{ $a->date }}</td>
+                                                                            <td>{{ $a->waktu_masuk }}</td>
+                                                                            <td>{{ $a->waktu_keluar }}</td>
+                                                                            <td>{{ $a->status }}</td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @else
+                                                                    <tr>
+                                                                        <td colspan="5" class="text-center">Tidak ada
+                                                                            absensi</td>
+                                                                    </tr>
+                                                                @endif
+
 
                                                             </tbody>
                                                         </table>
@@ -98,16 +107,25 @@
                                                         <div class="col-lg-12">
                                                             <div
                                                                 class="d-flex justify-content-between align-items-center mb-3">
-                                                                <h4 class="card-title card-title-dash">Absen 12 Agustus 2022
+                                                                <h4 class="card-title card-title-dash">Absen
+                                                                    {{ $tanggalHariIni_info }}
                                                                 </h4>
 
                                                             </div>
-                                                            <p class="text-muted ">12 Agustus 2022 , 12:00:00 WIB</p>
+                                                            <p class="text-muted "> {{ $waktuHariIni }} WIB
+                                                            </p>
 
                                                             <div id="map"></div>
                                                             <div class="mt-3 text-center">
-                                                                <button class="btn btn-primary btn-lg text-white">Absen
-                                                                    Sekarang</button>
+
+                                                                @if (
+                                                                    $tanggalHariIni == $tanggalAbsensiTerbaru &&
+                                                                        ($waktuHariIni >= $waktu_bukaAbsensiTerbaru && $waktuHariIni <= $waktu_tutupAbsensiTerbaru))
+                                                                    <button class="btn btn-primary btn-lg text-white"
+                                                                        onclick="handleClickAbsensi({{ $id_guru }})">Lakukan
+                                                                        Absensi</button>
+                                                                @endif
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -131,6 +149,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+
 
 
 
@@ -271,11 +292,13 @@
                     idGuru: idGuru,
 
                 };
-                axios.post('/absensi', data)
+                axios.post('/guru/absensi', data)
                     .then(function(response) {
                         if (response.status == 200) {
 
                             alert(response.data.message);
+                            // reload data
+                            window.location.reload();
                         } else {
                             alert('Absensi Gagal')
                         }

@@ -19,8 +19,8 @@ class KelolaAbsensiAdminController extends Controller
             $kelolaAbsensi = new KelolaAbsensi();
             $kelolaAbsensi->create([
                 'tanggal' => $request->tanggal,
-                'waktu_masuk' => $request->waktu_keluar,
-                'waktu_keluar' => $request->waktu_masuk
+                'waktu_masuk' => $request->waktu_masuk,
+                'waktu_keluar' => $request->waktu_keluar
             ]);
             return back()->with('success', 'Data Kelola absensi berhasil ditambahkan');
         } catch (\Throwable $th) {

@@ -6,6 +6,8 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
+
+                    @if(Auth::user()->role == 'admin')
                   
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.manajemenGuru') }}">
@@ -25,5 +27,7 @@
                             <span class="menu-title">Manajemen Absensi</span>
                         </a>
                     </li>
+
+                    @endif
                 </ul>
             </nav>
